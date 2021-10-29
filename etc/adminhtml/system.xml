@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright © GhostUnicorns spa. All rights reserved.
+  ~ See LICENSE and/or COPYING.txt for license details.
+  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="crt">
+            <group id="cleaner" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Cleaner</label>
+                <depends>
+                    <field id="crt/general/enabled">1</field>
+                </depends>
+                <field id="cleaner_all_enabled" translate="label"
+                       type="select" sortOrder="100" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Cleaner All - Enable</label>
+                    <depends>
+                        <field id="crt_importer/stock/enabled">1</field>
+                    </depends>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="cleaner_all_hours_to_keep" translate="label"
+                       type="text" sortOrder="110" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Cleaner All - Keep last X hours</label>
+                    <depends>
+                        <field id="crt/cleaner/cleaner_all_enabled">1</field>
+                    </depends>
+                    <validate>required-entry validate-greater-than-zero validate-number</validate>
+                </field>
+                <field id="cleaner_all_cron_expression" translate="Cronexpression"
+                       type="text" sortOrder="120" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Cleaner All - Cron Tab String</label>
+                    <comment><![CDATA[
+<pre>
+* * * * *
+| | | | |
+| | | | +---- Day of the Week   (range: 0-6, 1 standing for Monday)
+| | | +------ Month of the Year (range: 1-12)
+| | +-------- Day of the Month  (range: 1-31)
+| +---------- Hour              (range: 0-23)
++------------ Minute            (range: 0-59)
+Example: 0 0 * * * Daily at midnight
+</pre>
+                    ]]></comment>
+                    <validate>required-entry cronexpression</validate>
+                    <depends>
+                        <field id="crt/cleaner/cleaner_all_enabled">1</field>
+                    </depends>
+                </field>
+                <field id="cleaner_completed_enabled" translate="label"
+                       type="select" sortOrder="200" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Cleaner Completed - Enable</label>
+                    <depends>
+                        <field id="crt_importer/stock/enabled">1</field>
+                    </depends>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="cleaner_completed_hours_to_keep" translate="label"
+                       type="text" sortOrder="210" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Cleaner Completed - Keep last X hours</label>
+                    <depends>
+                        <field id="crt/cleaner/cleaner_completed_enabled">1</field>
+                    </depends>
+                    <validate>required-entry validate-greater-than-zero validate-number</validate>
+                </field>
+                <field id="cleaner_completed_cron_expression" translate="Cronexpression"
+                       type="text" sortOrder="220" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Cleaner Completed - Cron Tab String</label>
+                    <comment><![CDATA[
+<pre>
+* * * * *
+| | | | |
+| | | | +---- Day of the Week   (range: 0-6, 1 standing for Monday)
+| | | +------ Month of the Year (range: 1-12)
+| | +-------- Day of the Month  (range: 1-31)
+| +---------- Hour              (range: 0-23)
++------------ Minute            (range: 0-59)
+Example: 0 0 * * * Daily at midnight
+</pre>
+                    ]]></comment>
+                    <validate>required-entry cronexpression</validate>
+                    <depends>
+                        <field id="crt/cleaner/cleaner_completed_enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
