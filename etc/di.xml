@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright © GhostUnicorns spa. All rights reserved.
+  ~ See LICENSE and/or COPYING.txt for license details.
+  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Logger start -->
+    <type name="GhostUnicorns\CrtCleaner\Cron\Cleaner">
+        <arguments>
+            <argument name="logger" xsi:type="object">
+                GhostUnicorns\CrtCleaner\Logger\Virtual
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="GhostUnicorns\CrtCleaner\Logger\Virtual" type="Magento\Framework\Logger\Monolog">
+        <arguments>
+            <argument name="name" xsi:type="string">GhostUnicorns::CrtCleaner</argument>
+            <argument name="handlers" xsi:type="array">
+                <item name="system" xsi:type="object">
+                    GhostUnicorns\CrtCleaner\Handler\Virtual
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="GhostUnicorns\CrtCleaner\Handler\Virtual"
+                 type="Magento\Framework\Logger\Handler\Base">
+        <arguments>
+            <argument name="fileName" xsi:type="string">
+                /var/log/crt/cleaner-cron.log
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Logger end -->
+
+    <!-- Command start -->
+    <type name="Magento\Framework\Console\CommandListInterface">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="crt_clean" xsi:type="object">
+                    GhostUnicorns\CrtCleaner\Console\Command\CleanCommand
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="GhostUnicorns\CrtCleaner\Console\Command\CleanCommand">
+        <arguments>
+            <argument name="name" xsi:type="string">crt:clean</argument>
+        </arguments>
+    </type>
+    <!-- Command end -->
+
+    <!-- Cron start -->
+    <type name="GhostUnicorns\CrtCron\Api\CronListInterface">
+        <arguments>
+            <argument name="list" xsi:type="array">
+                <item name="crt_cleaner_all" xsi:type="object">
+                    GhostUnicorns\CrtCleaner\Cron\All\Virtual
+                </item>
+                <item name="crt_cleaner_completed" xsi:type="object">
+                    GhostUnicorns\CrtCleaner\Cron\Completed\Virtual
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="GhostUnicorns\CrtCleaner\Cron\All\Virtual"
+                 type="GhostUnicorns\CrtCron\Model\CrtCron">
+        <arguments>
+            <argument name="config" xsi:type="object">
+                GhostUnicorns\CrtCleaner\Model\ConfigCleanAll
+            </argument>
+            <argument name="instanceName" xsi:type="string">
+                GhostUnicorns\CrtCleaner\Cron\Cleaner\All\Virtual
+            </argument>
+            <argument name="code" xsi:type="string">crt_cleaner_all</argument>
+            <argument name="name" xsi:type="string">crt_cleaner_all</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="GhostUnicorns\CrtCleaner\Cron\Completed\Virtual"
+                 type="GhostUnicorns\CrtCron\Model\CrtCron">
+        <arguments>
+            <argument name="config" xsi:type="object">
+                GhostUnicorns\CrtCleaner\Model\ConfigCleanCompleted
+            </argument>
+            <argument name="instanceName" xsi:type="string">
+                GhostUnicorns\CrtCleaner\Cron\Cleaner\Completed\Virtual
+            </argument>
+            <argument name="code" xsi:type="string">crt_cleaner_completed</argument>
+            <argument name="name" xsi:type="string">crt_cleaner_completed</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="GhostUnicorns\CrtCleaner\Cron\Cleaner\All\Virtual"
+                 type="GhostUnicorns\CrtCleaner\Cron\CleanAll">
+        <arguments>
+            <argument name="logger" xsi:type="object">
+                GhostUnicorns\CrtCleaner\Logger\Virtual
+            </argument>
+            <argument name="config" xsi:type="object">
+                GhostUnicorns\CrtCleaner\Model\ConfigCleanAll
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="GhostUnicorns\CrtCleaner\Cron\Cleaner\Completed\Virtual"
+                 type="GhostUnicorns\CrtCleaner\Cron\CleanCompleted">
+        <arguments>
+            <argument name="logger" xsi:type="object">
+                GhostUnicorns\CrtCleaner\Logger\Virtual
+            </argument>
+            <argument name="config" xsi:type="object">
+                GhostUnicorns\CrtCleaner\Model\ConfigCleanCompleted
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Cron end -->
+</config>
