@@ -4,8 +4,8 @@
     "type": "magento2-module",
     "require": {
         "magento/framework": "*",
-        "ghostunicorns/module-crt-base": "~1.0.0",
-        "ghostunicorns/module-crt-cron": "~1.0.0"
+        "ghostunicorns/module-crt-base": "^1.0.0",
+        "ghostunicorns/module-crt-cron": "^1.0.0"
     },
     "authors": [
         {
